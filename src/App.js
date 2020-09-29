@@ -19,7 +19,7 @@ function App() {
     const response = await fetch(url)
     const data = await response.json()
     setRecipes(data.hits)
-    setQuery('');
+    setSearch('');
     // console.log(data.hits)
   }
 
