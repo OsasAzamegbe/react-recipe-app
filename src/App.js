@@ -20,7 +20,7 @@ function App() {
     const data = await response.json()
     setRecipes(data.hits)
     setSearch('');
-    // console.log(data.hits)
+    console.log(data.hits)
   }
 
   const updateSearch = e => {
@@ -29,7 +29,9 @@ function App() {
 
   const getSearch = e => {
     e.preventDefault();
-    setQuery(search);
+    if (search){
+      setQuery(search);
+    }
   }
 
 
@@ -42,14 +44,16 @@ function App() {
         </button>
       </form>
 
-      {recipes.map(recipe => (
-        <Recipe 
-          key={recipe.recipe.uri}
-          title={recipe.recipe.label} 
-          calories={recipe.recipe.calories} 
-          image={recipe.recipe.image} />
-      ))}
-
+      <div className="recipes" >
+        {recipes.map(recipe => (
+          <Recipe 
+            key={recipe.recipe.uri}
+            title={recipe.recipe.label} 
+            calories={recipe.recipe.calories} 
+            image={recipe.recipe.image}
+            ingredients={recipe.recipe.ingredientLines} />
+        ))}
+      </div>      
     </div>
   );
 }
