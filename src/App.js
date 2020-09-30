@@ -1,27 +1,27 @@
 import React, {useEffect, useState} from 'react';
-import Recipe from './Recipe'
+import Recipe from './Recipe';
 import './App.css';
+require('dotenv').config()
 
 function App() {
   const [recipes, setRecipes] = useState([]);
   const [search, setSearch] = useState('');
   const [query, setQuery] = useState('chicken');
 
-  const APP_ID = '03fdd561';
-  const APP_KEY = '5e53c27ba78ed288c1a665c647a3daf6';
-  const url = `https://api.edamam.com/search?q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}`
-  
   useEffect(() =>{
+    const APP_ID = process.env.REACT_APP_ID;
+    const APP_KEY = process.env.REACT_APP_KEY;
+    const url = `https://api.edamam.com/search?q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}`
+
+    const getRecipes = async () => {
+      const response = await fetch(url)
+      const data = await response.json()
+      setRecipes(data.hits)
+      setSearch('');
+    }
     getRecipes();
   }, [query]);
 
-  const getRecipes = async () => {
-    const response = await fetch(url)
-    const data = await response.json()
-    setRecipes(data.hits)
-    setSearch('');
-    console.log(data.hits)
-  }
 
   const updateSearch = e => {
     setSearch(e.target.value)
